@@ -47,6 +47,7 @@ async def onliner(token, status):
                 "presence": {"status": status, "afk": False},
             },
         }
+        async with websockets.connect(url, max_size=None) as ws:
         await ws.send(json.dumps(auth))
 
         cstatus = {
