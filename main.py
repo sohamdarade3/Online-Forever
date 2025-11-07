@@ -13,7 +13,7 @@ init(autoreset=True)
 status = "online"  # online/dnd/idle
 custom_status = ".gg/pkop"  # Custom Status
 
-usertoken = "ODY2MjQ5MjI1MzU5OTgyNjA0.G2E4e1.UWP00pcWTVstG8cN1A6HlXnLqZWL8c_easCE_U"
+usertoken = os.getenv("TOKEN")
 if not usertoken:
     print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}] Please add a token inside Secrets.")
     sys.exit()
