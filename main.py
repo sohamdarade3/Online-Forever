@@ -31,7 +31,7 @@ discriminator = userinfo["discriminator"]
 userid = userinfo["id"]
 
 async def onliner(token, status):
-    async with websockets.connect("wss://gateway.discord.gg/?v=9&encoding=json",max_size=None) as ws:
+    async with websockets.connect("wss://gateway.discord.gg/?v=9&encoding=json", max_size=None) as ws:
         start = json.loads(await ws.recv())
         heartbeat = start["d"]["heartbeat_interval"]
 
@@ -47,7 +47,8 @@ async def onliner(token, status):
                 "presence": {"status": status, "afk": False},
             },
         }
-       await ws.send(json.dumps(auth))
+
+        await ws.send(json.dumps(auth))
 
         cstatus = {
             "op": 3,
@@ -59,23 +60,26 @@ async def onliner(token, status):
                         "state": custom_status,
                         "name": "Custom Status",
                         "id": "custom",
-                                #Uncomment the below lines if you want an emoji in the status
-                                #"emoji": {
-                                    #"name": "emoji name",
-                                    #"id": "emoji id",
-                                    #"animated": False,
-                                #},
-                            }
-                        ],
+                        # Uncomment below lines if you want an emoji
+                        # "emoji": {
+                        #     "name": "emoji name",
+                        #     "id": "emoji id",
+                        #     "animated": False,
+                        # },
+                    }
+                ],
                 "status": status,
                 "afk": False,
             },
         }
+
         await ws.send(json.dumps(cstatus))
 
         online = {"op": 1, "d": "None"}
-        await asyncio.sleep(heartbeat / 1000)
-        await ws.send(json.dumps(online))
+
+        while True:
+            await asyncio.sleep(heartbeat / 1000)
+            await ws.send(json.dumps(online))
 
 async def run_onliner():
     if platform.system() == "Windows":
